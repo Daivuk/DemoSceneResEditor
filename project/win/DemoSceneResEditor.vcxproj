@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\mainVC.cpp" />
     <ClCompile Include="..\..\src\resTexture.cpp" />
     <ClCompile Include="..\..\src\styles.cpp" />
     <ClCompile Include="..\..\src\texturesVC.cpp" />
@@ -22,6 +23,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\mainVC.h" />
     <ClInclude Include="..\..\src\resTexture.h" />
     <ClInclude Include="..\..\src\styles.h" />
     <ClInclude Include="..\..\src\texturesVC.h" />

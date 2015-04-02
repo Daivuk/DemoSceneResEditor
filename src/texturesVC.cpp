@@ -1,6 +1,8 @@
 #include "texturesVC.h"
-#include "styles.h"
+#include "mainVC.h"
 #include "resTexture.h"
+
+extern MainVC* pMainVC;
 
 using namespace std;
 
@@ -9,14 +11,12 @@ static const Color g_toolBtnHoverColor = OColorHex(3e3e40);
 static const Color g_toolBtnDownColor = OColorHex(007acc);
 
 TexturesVC::TexturesVC()
-    : m_uiContext({(float)OSettings->getResolution().x, (float)OSettings->getResolution().y})
-    , m_uiScreen("../../assets/ui/textures.json")
+    : m_uiScreen("../../assets/ui/textures.json")
 {
     // create UI styles
-    createUIStyles(&m_uiContext);
-    m_uiContext.addStyle<UICheckBox>("chkTexture", [this](const onut::UICheckBox* pCheckBox, const onut::sUIRect& rect)
+    pMainVC->m_uiContext.addStyle<UICheckBox>("chkTexture", [this](const onut::UICheckBox* pCheckBox, const onut::sUIRect& rect)
     {
-        auto state = pCheckBox->getState(m_uiContext);
+        auto state = pCheckBox->getState(pMainVC->m_uiContext);
         auto orect = UI2Onut(rect);
         orect.z -= 4;
         orect.w -= 4;
@@ -53,6 +53,8 @@ TexturesVC::TexturesVC()
     m_uiScreen.getChild("btnNew")->onClick = bind(&TexturesVC::onNew, this, placeholders::_1, placeholders::_2);
     m_uiScreen.getChild("btnEdit")->onClick = bind(&TexturesVC::onEdit, this, placeholders::_1, placeholders::_2);
     m_uiScreen.getChild("btnDelete")->onClick = bind(&TexturesVC::onDelete, this, placeholders::_1, placeholders::_2);
+
+    pMainVC->m_pMainView->add(&m_uiScreen);
 }
 
 void TexturesVC::update()
@@ -64,15 +66,6 @@ void TexturesVC::update()
         pRes->pChk->rect = rect;
         rect.position.x += rect.size.x;
     }
-
-    m_uiScreen.update(m_uiContext, {OMousePos.x, OMousePos.y}, OInput->isStateDown(DIK_MOUSEB1));
-}
-
-void TexturesVC::render()
-{
-    OSB->begin();
-    m_uiScreen.render(m_uiContext);
-    OSB->end();
 }
 
 void TexturesVC::onNew(UIControl* pControl, const UIMouseEvent& e)

@@ -5,10 +5,12 @@
     <ClCompile Include="..\..\src\texturesVC.cpp" />
     <ClCompile Include="..\..\src\styles.cpp" />
     <ClCompile Include="..\..\src\resTexture.cpp" />
+    <ClCompile Include="..\..\src\mainVC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\texturesVC.h" />
     <ClInclude Include="..\..\src\styles.h" />
     <ClInclude Include="..\..\src\resTexture.h" />
+    <ClInclude Include="..\..\src\mainVC.h" />
   </ItemGroup>
 </Project>
