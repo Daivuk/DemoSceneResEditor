@@ -29,77 +29,72 @@ enum eRES_CMD : uint8_t
     RES_AMBIENT
 };
 
-class sTextureCmd
+struct sTextureCmd
 {
-public:
     virtual ~sTextureCmd() {}
     struct sTexture* texture = nullptr;
 };
 
-class sTextureCmdFILL : public sTextureCmd
+struct sTextureCmdFILL : public sTextureCmd
 {
-public:
     Color color = Color::White;
 };
 
-class sTextureCmdRECT : public sTextureCmd
+struct sTextureCmdRECT : public sTextureCmd
 {
-public:
     Color color = Color::White;
     int x = 0, y = 0, w = 16, h = 16;
 };
 
-class sTextureCmdBEVEL : public sTextureCmd
+struct sTextureCmdBEVEL : public sTextureCmd
 {
-public:
     Color color = Color::Black;
     int x = 0, y = 0, w = 16, h = 16;
     int bevel;
 };
 
-class sTextureCmdCIRCLE : public sTextureCmd
+struct sTextureCmdCIRCLE : public sTextureCmd
 {
-public:
     Color color = Color::White;
     int x = 0, y = 0;
     int radius;
 };
 
-class sTextureCmdBEVEL_CIRCLE : public sTextureCmd
+struct sTextureCmdBEVEL_CIRCLE : public sTextureCmd
 {
-public:
     Color color = Color::White;
     int x = 0, y = 0;
     int radius = 20;
     int bevel = 3;
 };
 
-class sTextureCmdLINE : public sTextureCmd
+struct sTextureCmdLINE : public sTextureCmd
 {
-public:
     Color color = Color::White;
     int x1 = 0, y1 = 8, x2 = 16, y2 = 8;
     int size = 3;
 };
 
-class sTextureCmdGRADIENT : public sTextureCmd
+struct sTextureCmdGRADIENT : public sTextureCmd
 {
-public:
     Color color1 = Color::White, color2 = Color::Black;
     int x = 0, y = 0, w = 16, h = 16;
     bool bVertical;
 };
 
-class sTextureCmdNORMAL_MAP : public sTextureCmd
+struct sTextureCmdNORMAL_MAP : public sTextureCmd
 {
-public:
 };
 
 struct sTexture
 {
+    virtual ~sTexture();
+    void bake();
+
     Texture* texture = nullptr;
     int w = 256, h = 256;
     vector<sTextureCmd*> cmds;
+    uint32_t* data = nullptr;
 };
 
 extern vector<sTexture*> res_textures;
