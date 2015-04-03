@@ -11,7 +11,6 @@ enum class eState
 
 eState g_state = eState::TEXTURES;
 
-TexturesVC* pTextureVC;
 MainVC* pMainVC;
 
 int CALLBACK WinMain(
@@ -27,14 +26,13 @@ int CALLBACK WinMain(
     onut::run([]
     {
         pMainVC = new MainVC();
-        pTextureVC = new TexturesVC();
 
-        OWindow->onWrite = [](char c){pMainVC->m_uiContext.write(c); };
+        OWindow->onWrite = [](char c){pMainVC->uiContext.write(c); };
         OWindow->onKey = [](uintptr_t key)
         {
             //if (!g_pDocument->isBusy())
             {
-                pMainVC->m_uiContext.keyDown(key);
+                pMainVC->uiContext.keyDown(key);
                 //if (!dynamic_cast<onut::UITextBox*>(pMainVC->m_uiContext.getFocusControl()))
                 //{
                 //    //checkShortCut(key);
@@ -45,7 +43,7 @@ int CALLBACK WinMain(
     },
         []
     {
-        pMainVC->m_uiContext.resize({OScreenWf, OScreenHf});
+        pMainVC->uiContext.resize({OScreenWf, OScreenHf});
 
         switch (g_state)
         {

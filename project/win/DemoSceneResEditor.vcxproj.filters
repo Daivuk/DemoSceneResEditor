@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\texturesVC.cpp" />
     <ClCompile Include="..\..\src\styles.cpp" />
     <ClCompile Include="..\..\src\resTexture.cpp" />
     <ClCompile Include="..\..\src\mainVC.cpp" />
+    <ClCompile Include="..\..\src\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\texturesVC.h" />
     <ClInclude Include="..\..\src\styles.h" />
     <ClInclude Include="..\..\src\resTexture.h" />
     <ClInclude Include="..\..\src\mainVC.h" />
+    <ClInclude Include="..\..\src\resources.h" />
   </ItemGroup>
 </Project>

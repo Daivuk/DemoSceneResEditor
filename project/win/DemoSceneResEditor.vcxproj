@@ -13,9 +13,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\mainVC.cpp" />
+    <ClCompile Include="..\..\src\resources.cpp" />
     <ClCompile Include="..\..\src\resTexture.cpp" />
     <ClCompile Include="..\..\src\styles.cpp" />
-    <ClCompile Include="..\..\src\texturesVC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\onut\project\win\onut.vcxproj">
@@ -24,9 +24,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\mainVC.h" />
+    <ClInclude Include="..\..\src\resources.h" />
     <ClInclude Include="..\..\src\resTexture.h" />
     <ClInclude Include="..\..\src\styles.h" />
-    <ClInclude Include="..\..\src\texturesVC.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C3728CD5-9F10-4978-A64A-5F34AC95F689}</ProjectGuid>
