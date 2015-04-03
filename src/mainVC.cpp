@@ -85,12 +85,24 @@ MainVC::MainVC()
         kv.second->behavior = eUICheckBehavior::EXCLUSIVE;
         kv.second->remove();
     }
+    pnlTexture = uiTexture->getChild("pnlTexture");
+    uiTextureW = uiInspectorTexture->getChild<UITextBox>("txtImgW");
+    uiTextureH = uiInspectorTexture->getChild<UITextBox>("txtImgH");
+    uiTextureW->onTextChanged = [this](UITextBox* c, const UITextBoxEvent& e)
+    {
+        pnlTexture->rect.size.x = (float)uiTextureW->getInt();
+        workingTexture->w = pnlTexture->rect.size.x;
+    };
+    uiTextureH->onTextChanged = [this](UITextBox* c, const UITextBoxEvent& e)
+    {
+        pnlTexture->rect.size.y = (float)uiTextureH->getInt();
+        workingTexture->h = pnlTexture->rect.size.y;
+    };
 
     // Events
     uiInspectorTexture->getChild("btnCmdFILL")->onClick = [this](UIControl* c, const UIMouseEvent& e)
     {
-        auto fill = new sTextureCmdFILL();
-        insertCmd(fill, cmdControls[eRES_CMD::RES_FILL]->copy());
+        insertCmd(new sTextureCmdFILL(), cmdControls[eRES_CMD::RES_FILL]->copy());
     };
     uiInspectorTexture->getChild("btnCmdRECT")->onClick = [this](UIControl* c, const UIMouseEvent& e)
     {
@@ -161,7 +173,7 @@ MainVC::MainVC()
             workingTexture = selected.texture;
             uiTexture->isVisible = true;
             uiInspectorTexture->isVisible = true;
-            repopulateCmds();
+            buildUIForTexture();
         }
     };
     uiInspectorTextures->getChild("btnDeleteTexture")->onClick = [this](UIControl* c, const UIMouseEvent& e)
@@ -186,6 +198,7 @@ MainVC::MainVC()
 
 void MainVC::insertCmd(sTextureCmd* pCmd, UIControl* pCtrl)
 {
+    pCmd->texture = workingTexture;
     pCtrl->pUserData = pCmd;
     auto selected = getSelectedCmd();
     auto index = selected.index;
@@ -193,6 +206,13 @@ void MainVC::insertCmd(sTextureCmd* pCmd, UIControl* pCtrl)
     uiCmdStack->insertAfter(pCtrl, selected.selectBox);
     workingTexture->cmds.insert(workingTexture->cmds.begin() + index, pCmd);
     ((UICheckBox*)pCtrl)->setIsChecked(true);
+}
+
+void MainVC::addCmd(sTextureCmd* pCmd, UIControl* pCtrl)
+{
+    pCmd->texture = workingTexture;
+    pCtrl->pUserData = pCmd;
+    uiCmdStack->add(pCtrl);
 }
 
 MainVC::sSelectTextureInfo MainVC::getSelectedTexture() const
@@ -279,6 +299,45 @@ void MainVC::render()
     OSB->end();
 }
 
-void MainVC::repopulateCmds()
+void MainVC::buildUIForTexture()
 {
+    uiCmdStack->removeAll();
+    for (auto cmd : workingTexture->cmds)
+    {
+        if (dynamic_cast<sTextureCmdFILL*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_FILL]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdRECT*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_RECT]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdBEVEL*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_BEVEL]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdCIRCLE*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_CIRCLE]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdBEVEL_CIRCLE*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_BEVEL_CIRCLE]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdLINE*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_LINE]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdNORMAL_MAP*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_NORMAL_MAP]->copy());
+        }
+        else if (dynamic_cast<sTextureCmdGRADIENT*>(cmd))
+        {
+            addCmd(cmd, cmdControls[eRES_CMD::RES_GRADIENT]->copy());
+        }
+    }
+    uiTextureW->setInt(workingTexture->w);
+    uiTextureH->setInt(workingTexture->h);
+    pnlTexture->rect.size = {(float)workingTexture->w, (float)workingTexture->h};
 }

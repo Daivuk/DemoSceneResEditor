@@ -31,6 +31,8 @@ public:
     sSelectCmdInfo getSelectedCmd() const;
     void repopulateCmds();
     void insertCmd(sTextureCmd* pCmd, UIControl* pCtrl);
+    void addCmd(sTextureCmd* pCmd, UIControl* pCtrl);
+    void buildUIForTexture();
 
 public:
     UIContext uiContext;
@@ -45,4 +47,7 @@ public:
 
     map<eRES_CMD, UICheckBox*> cmdControls;
     UIControl* uiCmdStack;
+    UITextBox* uiTextureW;
+    UITextBox* uiTextureH;
+    UIControl* pnlTexture;
 };
